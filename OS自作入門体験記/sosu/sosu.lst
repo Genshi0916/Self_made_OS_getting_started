@@ -1,0 +1,86 @@
+     1 00000000                                 [FORMAT "WCOFF"]
+     2 00000000                                 [INSTRSET "i486p"]
+     3 00000000                                 [OPTIMIZE 1]
+     4 00000000                                 [OPTION 1]
+     5 00000000                                 [BITS 32]
+     6 00000000                                 	EXTERN	_sprintf
+     7 00000000                                 	EXTERN	_api_putstr0
+     8 00000000                                 	EXTERN	_api_end
+     9 00000000                                 [FILE "sosu.c"]
+    10                                          [SECTION .data]
+    11 00000000                                 LC2:
+    12 00000000 42 75 7A 7A 09 00               	DB	"Buzz",0x09,0x00
+    13 00000006                                 LC3:
+    14 00000006 25 64 09 00                     	DB	"%d",0x09,0x00
+    15 0000000A                                 LC1:
+    16 0000000A 46 69 7A 7A 09 00               	DB	"Fizz",0x09,0x00
+    17 00000010                                 LC0:
+    18 00000010 46 69 7A 7A 42 75 7A 7A 09 00   	DB	"FizzBuzz",0x09,0x00
+    19                                          [SECTION .text]
+    20 00000000                                 	GLOBAL	_HariMain
+    21 00000000                                 _HariMain:
+    22 00000000 55                              	PUSH	EBP
+    23 00000001 89 E5                           	MOV	EBP,ESP
+    24 00000003 53                              	PUSH	EBX
+    25 00000004 83 EC 7C                        	SUB	ESP,124
+    26 00000007 BB 00000001                     	MOV	EBX,1
+    27 0000000C                                 L12:
+    28 0000000C BA 00000003                     	MOV	EDX,3
+    29 00000011 89 D8                           	MOV	EAX,EBX
+    30 00000013 89 D1                           	MOV	ECX,EDX
+    31 00000015 99                              	CDQ
+    32 00000016 F7 F9                           	IDIV	ECX
+    33 00000018 85 D2                           	TEST	EDX,EDX
+    34 0000001A 75 10                           	JNE	L6
+    35 0000001C BA 00000005                     	MOV	EDX,5
+    36 00000021 89 D8                           	MOV	EAX,EBX
+    37 00000023 89 D1                           	MOV	ECX,EDX
+    38 00000025 99                              	CDQ
+    39 00000026 F7 F9                           	IDIV	ECX
+    40 00000028 85 D2                           	TEST	EDX,EDX
+    41 0000002A 74 5C                           	JE	L16
+    42 0000002C                                 L6:
+    43 0000002C BA 00000003                     	MOV	EDX,3
+    44 00000031 89 D8                           	MOV	EAX,EBX
+    45 00000033 89 D1                           	MOV	ECX,EDX
+    46 00000035 99                              	CDQ
+    47 00000036 F7 F9                           	IDIV	ECX
+    48 00000038 85 D2                           	TEST	EDX,EDX
+    49 0000003A 74 44                           	JE	L17
+    50 0000003C BA 00000005                     	MOV	EDX,5
+    51 00000041 89 D8                           	MOV	EAX,EBX
+    52 00000043 89 D1                           	MOV	ECX,EDX
+    53 00000045 99                              	CDQ
+    54 00000046 F7 F9                           	IDIV	ECX
+    55 00000048 85 D2                           	TEST	EDX,EDX
+    56 0000004A 75 2C                           	JNE	L10
+    57 0000004C 53                              	PUSH	EBX
+    58 0000004D 68 [00000000]                   	PUSH	LC2
+    59 00000052                                 L15:
+    60 00000052 8D 45 84                        	LEA	EAX,DWORD [-124+EBP]
+    61 00000055 43                              	INC	EBX
+    62 00000056 50                              	PUSH	EAX
+    63 00000057 E8 [00000000]                   	CALL	_sprintf
+    64 0000005C 8D 45 84                        	LEA	EAX,DWORD [-124+EBP]
+    65 0000005F 83 C4 0C                        	ADD	ESP,12
+    66 00000062 50                              	PUSH	EAX
+    67 00000063 E8 [00000000]                   	CALL	_api_putstr0
+    68 00000068 83 FB 64                        	CMP	EBX,100
+    69 0000006B 58                              	POP	EAX
+    70 0000006C 7E 9E                           	JLE	L12
+    71 0000006E E8 [00000000]                   	CALL	_api_end
+    72 00000073 8B 5D FC                        	MOV	EBX,DWORD [-4+EBP]
+    73 00000076 C9                              	LEAVE
+    74 00000077 C3                              	RET
+    75 00000078                                 L10:
+    76 00000078 53                              	PUSH	EBX
+    77 00000079 68 [00000006]                   	PUSH	LC3
+    78 0000007E EB D2                           	JMP	L15
+    79 00000080                                 L17:
+    80 00000080 53                              	PUSH	EBX
+    81 00000081 68 [0000000A]                   	PUSH	LC1
+    82 00000086 EB CA                           	JMP	L15
+    83 00000088                                 L16:
+    84 00000088 53                              	PUSH	EBX
+    85 00000089 68 [00000010]                   	PUSH	LC0
+    86 0000008E EB C2                           	JMP	L15
